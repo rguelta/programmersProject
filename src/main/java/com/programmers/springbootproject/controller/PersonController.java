@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author robin
  *
  */
+
+// TODO improve exception handling, add return messages for all controllers
 @RestController
 @RequestMapping("/person")
 public class PersonController {
