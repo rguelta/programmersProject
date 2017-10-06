@@ -7,7 +7,7 @@ It's a simple Spring Boot Project, it contain some REST controllers to do operat
 SET UP
  - Download or checkout the source
  - Go to the application root folder
- - Run the application using the maven command line bellow:
+ - Run the application using the maven command line:
  		mvn spring-boot:run
 
  		
