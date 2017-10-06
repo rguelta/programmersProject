@@ -33,35 +33,35 @@ public class PersonControllerTest {
   public void setUp() {
     this.searchOptions.put("firstName", "Robin");
     this.searchOptions.put("lastName", "Guelta");
-    this.searchOptions.put("age", 37);
+    this.searchOptions.put("id", 1);
 
     this.person.setFirstName("Robin");
     this.person.setLastName("Guelta");
-    this.person.setAge(37);
+    this.person.setId(1);
   }
 
   @Test
   public void testAddPerson() throws Exception {
     ResponseEntity<Void> responseEntity =
-        this.restTemplate.postForEntity("/person/add", this.person, Void.class);
+        this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
   @Test
   public void testListPerson() throws Exception {
-    this.restTemplate.postForEntity("/person/add", this.person, Void.class);
+    this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
     ResponseEntity<?> responseEntity =
-        this.restTemplate.postForEntity("/person/list", null, List.class);
+        this.restTemplate.getForEntity("/person/list", null, List.class);
 
     assertThat(responseEntity.getBody().toString())
-        .isEqualTo("[{firstName=Robin, lastName=Guelta, age=37}]");
+        .isEqualTo("[{firstName=Robin, lastName=Guelta, id=1}]");
   }
 
   @Test
   public void testRemovePerson() throws Exception {
-    this.restTemplate.postForEntity("/person/add", this.person, Void.class);
+    this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
     ResponseEntity<Void> responseEntity =
         this.restTemplate.postForEntity("/person/remove", this.person, Void.class);
@@ -71,12 +71,12 @@ public class PersonControllerTest {
 
   @Test
   public void testSearchPerson() throws Exception {
-    this.restTemplate.postForEntity("/person/add", this.person, Void.class);
+    this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
     ResponseEntity<?> responseEntity =
         this.restTemplate.postForEntity("/person/search", this.searchOptions, List.class);
 
     assertThat(responseEntity.getBody().toString())
-        .isEqualTo("[{firstName=Robin, lastName=Guelta, age=37}]");
+        .isEqualTo("[{firstName=Robin, lastName=Guelta, id=1}]");
   }
 }

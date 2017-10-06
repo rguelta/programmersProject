@@ -26,13 +26,22 @@ public class PersonService {
     return personList;
   }
 
+  public Person getPerson(Integer id) {
+    return personList.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+  }
+
   /**
    * Service method to add a person
    * 
    * @param person person to add
    */
-  public void add(Person person) {
-    this.personList.add(person);
+  public void save(Person person) {
+    if (personList.contains(person)) {
+      personList.remove(person);
+      personList.add(person);
+    } else {
+      this.personList.add(person);
+    }
   }
 
   /**
@@ -40,8 +49,8 @@ public class PersonService {
    * 
    * @param person person to remove
    */
-  public void remove(Person person) {
-    this.personList.remove(person);
+  public void remove(Integer id) {
+    this.personList.removeIf(p -> p.getId().equals(id));
   }
 
   /**
@@ -55,8 +64,6 @@ public class PersonService {
             || searchOptions.get("firstName").equals(p.getFirstName()))
         .filter(p -> !searchOptions.containsKey("lastName")
             || searchOptions.get("lastName").equals(p.getLastName()))
-        .filter(
-            p -> !searchOptions.containsKey("age") || searchOptions.get("age").equals(p.getAge()))
         .collect(Collectors.toList());
   }
 }
