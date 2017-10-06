@@ -41,11 +41,11 @@ public class PersonControllerTest {
   }
 
   @Test
-  public void testAddPerson() throws Exception {
+  public void testSavePerson() throws Exception {
     ResponseEntity<Void> responseEntity =
         this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
   }
 
   @Test
@@ -53,7 +53,7 @@ public class PersonControllerTest {
     this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
     ResponseEntity<?> responseEntity =
-        this.restTemplate.getForEntity("/person/list", null, List.class);
+        this.restTemplate.getForEntity("/person/list", List.class, Void.class);
 
     assertThat(responseEntity.getBody().toString())
         .isEqualTo("[{firstName=Robin, lastName=Guelta, id=1}]");
@@ -64,9 +64,9 @@ public class PersonControllerTest {
     this.restTemplate.postForEntity("/person/save", this.person, Void.class);
 
     ResponseEntity<Void> responseEntity =
-        this.restTemplate.postForEntity("/person/remove", this.person, Void.class);
+        this.restTemplate.getForEntity("/person/remove/1", null, Void.class);
 
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
   }
 
   @Test
